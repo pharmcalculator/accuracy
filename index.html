@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Accuracy Calculation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .table-container {
+      margin: 0 20px;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 600px;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    input[type="number"] {
+      width: 100px;
+      font-size: 20px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 28px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .result-table {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .result-table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .result-table td {
+      padding: 20px;
+    }
+
+    p {
+      font-size: 24px;
+    }
+  </style>
+  <script>
+    function calculateAccuracy(tableId) {
+      var trueValue = parseFloat(document.getElementById("trueValue" + tableId).value);
+      var measuredValues = [];
+      
+      for (var i = 1; i <= 3; i++) {
+        measuredValues.push(parseFloat(document.getElementById("measuredValue" + tableId + "_" + i).value));
+      }
+      
+      var relativeErrors = [];
+      var accuracies = [];
+      
+      for (var i = 0; i < measuredValues.length; i++) {
+        relativeErrors.push(((measuredValues[i] - trueValue) / trueValue) * 100);
+        accuracies.push(100 - Math.abs(relativeErrors[i]));
+      }
+      
+      var averageAccuracy = accuracies.reduce((a, b) => a + b, 0) / accuracies.length;
+      var averageRelativeError = relativeErrors.reduce((a, b) => a + Math.abs(b), 0) / relativeErrors.length;
+      
+      document.getElementById("accuracyResult" + tableId).textContent = "Average Accuracy: " + averageAccuracy.toFixed(2) + "%";
+      document.getElementById("relativeErrorResult" + tableId).textContent = "Average Relative Error (%): " + averageRelativeError.toFixed(2) + "%";
+    }
+  </script>
+</head>
+<body>
+  <h1>Accuracy Calculation</h1>
+  
+  <div class="container">
+    <div class="table-container">
+      <h2>High QC Concentrations</h2>
+      <label for="trueValue1">True Value:</label>
+      <input type="number" id="trueValue1">
+      <br>
+      <table>
+        <caption>High QC Concentrations</caption>
+        <tr>
+          <th>Measurement</th>
+          <th>Measured Value</th>
+        </tr>
+        <tr>
+          <td>Measurement 1</td>
+          <td><input type="number" id="measuredValue1_1"></td>
+        </tr>
+        <tr>
+          <td>Measurement 2</td>
+          <td><input type="number" id="measuredValue1_2"></td>
+        </tr>
+        <tr>
+          <td>Measurement 3</td>
+          <td><input type="number" id="measuredValue1_3"></td>
+        </tr>
+      </table>
+      <br>
+      <button onclick="calculateAccuracy(1)">Calculate Accuracy</button>
+      <br>
+      <p><span id="accuracyResult1"></span></p>
+      <p><span id="relativeErrorResult1"></span></p>
+    </div>
+    
+    <div class="table-container">
+      <h2>Medium QC Concentrations</h2>
+      <label for="trueValue2">True Value:</label>
+      <input type="number" id="trueValue2">
+      <br>
+      <table>
+        <caption>Medium QC Concentrations</caption>
+        <tr>
+          <th>Measurement</th>
+          <th>Measured Value</th>
+        </tr>
+        <tr>
+          <td>Measurement 1</td>
+          <td><input type="number" id="measuredValue2_1"></td>
+        </tr>
+        <tr>
+          <td>Measurement 2</td>
+          <td><input type="number" id="measuredValue2_2"></td>
+        </tr>
+        <tr>
+          <td>Measurement 3</td>
+          <td><input type="number" id="measuredValue2_3"></td>
+        </tr>
+      </table>
+      <br>
+      <button onclick="calculateAccuracy(2)">Calculate Accuracy</button>
+      <br>
+      <p><span id="accuracyResult2"></span></p>
+      <p><span id="relativeErrorResult2"></span></p>
+    </div>
+    
+    <div class="table-container">
+      <h2>Low QC Concentrations</h2>
+      <label for="trueValue3">True Value:</label>
+      <input type="number" id="trueValue3">
+      <br>
+      <table>
+        <caption>Low QC Concentrations</caption>
+        <tr>
+          <th>Measurement</th>
+          <th>Measured Value</th>
+        </tr>
+        <tr>
+          <td>Measurement 1</td>
+          <td><input type="number" id="measuredValue3_1"></td>
+        </tr>
+        <tr>
+          <td>Measurement 2</td>
+          <td><input type="number" id="measuredValue3_2"></td>
+        </tr>
+        <tr>
+          <td>Measurement 3</td>
+          <td><input type="number" id="measuredValue3_3"></td>
+        </tr>
+      </table>
+      <br>
+      <button onclick="calculateAccuracy(3)">Calculate Accuracy</button>
+      <br>
+      <p><span id="accuracyResult3"></span></p>
+      <p><span id="relativeErrorResult3"></span></p>
+    </div>
+  </div>
+</body>
+</html>
